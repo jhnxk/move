@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>어바웃트립 5분 발표</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;800;900&display=swap">
+<style>
+  :root{
+    --navy:#14294B; --light:#F7F5EF; --alt:#E9EEF5; --orange:#E07A2F;
+    --orange-soft:#F2A65A; --orange-text:#B4561C; --muted:#4A5568; --foot:#5E6673;
+    --line:#CBD5E1; --card-line:#DCE3EC; --sky:#C9D6EA;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#0B1628;overflow:hidden}
+  body{font-family:'Noto Sans KR',Arial,sans-serif;color:var(--navy)}
+  #stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center}
+  .slide{position:absolute;inset:0;padding:128px 128px 160px;display:none;flex-direction:column;gap:48px;background:var(--light)}
+  .slide.active{display:flex;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .bg-alt{background:var(--alt)} .bg-navy{background:var(--navy);color:var(--light)} .bg-orange{background:var(--orange)}
+  .eyebrow{font-size:26px;font-weight:700;color:var(--orange-text);letter-spacing:2px}
+  .bg-orange .eyebrow{color:var(--navy)}
+  .head{display:flex;flex-direction:column;gap:16px}
+  h2{font-size:64px;font-weight:800;line-height:1.25}
+  h3{font-size:34px;font-weight:700;line-height:1.3}
+  .foot{position:absolute;left:128px;right:128px;bottom:64px;display:flex;justify-content:space-between;font-size:24px;color:var(--foot)}
+  .bg-orange .foot{color:var(--navy)}
+  .row{display:flex;gap:32px}
+  .card{flex:1;display:flex;flex-direction:column;gap:18px;background:#fff;padding:40px;border:1px solid var(--card-line);border-radius:20px}
+  .card p,.card li{font-size:26px;line-height:1.5;color:var(--muted)}
+  .card ul{padding-left:30px;display:flex;flex-direction:column;gap:6px}
+  .card.dark{background:var(--navy);border:none;color:var(--light)}
+  .card.dark p,.card.dark li{color:var(--sky)}
+  .card.strong{border:2px solid var(--navy)}
+  .icon{width:56px;height:56px}
+  .pill{display:inline-block;font-size:24px;font-weight:700;padding:6px 18px;border-radius:999px;align-self:flex-start}
+  .pill.navy{background:var(--navy);color:var(--light)}
+  .pill.peach{background:#F6D3B5;color:var(--navy)}
+  .pill.gray{background:var(--card-line);color:var(--navy)}
+  .pill.orange{background:var(--orange-soft);color:var(--navy)}
+  .statement{font-size:34px;font-weight:700;line-height:1.4}
+  .accent{color:var(--orange-text)}
+
+  /* cover */
+  .cover{justify-content:center;gap:32px;padding:128px}
+  .cover h1{font-size:160px;font-weight:900;line-height:1.1;letter-spacing:-4px}
+  .cover .en{font-size:56px;font-weight:300;color:var(--sky);letter-spacing:2px}
+  .cover .tag{font-size:28px;font-weight:700;color:var(--orange-soft);letter-spacing:2px}
+  .cover .sub{width:980px;font-size:40px;line-height:1.5}
+  .cover .foot{color:#A9B8CF}
+  .cover svg{position:absolute;left:1232px;top:180px}
+
+  /* problem flow */
+  .flow{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr 48px 1fr 48px 1fr;gap:20px 16px;align-items:center}
+  .step{display:flex;flex-direction:column;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:32px 24px}
+  .step p{font-size:28px;font-weight:700;text-align:center;line-height:1.35}
+  .step.hot{background:var(--orange);border:none}
+  .arrow{width:48px;height:24px}
+  .bracket{grid-column:span 7;border-top:3px solid #8A9AB2;padding-top:12px;font-size:24px;font-weight:700;color:var(--muted);text-align:center}
+  .inside{font-size:24px;font-weight:700;color:var(--orange-text);text-align:center}
+
+  /* definition */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .grid2 > div{background:var(--light);border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:10px}
+  .grid2 h3{font-size:32px}
+  .grid2 p{font-size:26px;line-height:1.45;color:var(--muted)}
+
+  /* entry */
+  .num{font-size:72px;font-weight:900;color:var(--orange);line-height:1}
+
+  /* progress */
+  .tl-row{display:grid;grid-template-columns:240px 1fr 160px;gap:32px;align-items:center;padding:22px 0;border-top:1px solid var(--line)}
+  .tl-row:first-child{border-top:2px solid var(--navy)}
+  .tl-row:last-child{border-bottom:1px solid var(--line)}
+  .tl-date{font-size:30px;font-weight:700;color:var(--orange-text)}
+  .tl-row h3{font-size:30px}
+  .tl-row p{font-size:26px;color:var(--muted)}
+  .status{font-size:24px;font-weight:700;text-align:center;padding:6px 0;border-radius:999px;background:var(--card-line)}
+  .status.now{background:var(--orange)}
+
+  /* schedule */
+  .track{flex:1;background:#fff;border-radius:20px;padding:36px 40px;display:flex;flex-direction:column}
+  .track-head{display:flex;gap:16px;align-items:center;padding-bottom:20px}
+  .track-row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:16px 0;border-top:1px solid var(--line);font-size:26px}
+  .track-row:nth-child(2){border-top:2px solid var(--navy)}
+  .track-row .d{font-weight:700;color:var(--orange-text)}
+  .track-row .final{font-weight:700}
+
+  /* roadmap */
+  .road .card{padding:36px 32px;gap:16px}
+  .road .card li{font-size:24px;line-height:1.55}
+  .road h3{font-size:32px}
+
+  /* closing */
+  .closing{justify-content:center;align-items:center;gap:40px;padding:128px}
+  .closing h1{font-size:96px;font-weight:900;line-height:1.2;text-align:center;letter-spacing:-2px}
+  .closing .team{font-size:36px;color:var(--sky)}
+  .closing .thanks{font-size:32px;font-weight:700;border:2px solid var(--orange-soft);padding:12px 40px;border-radius:999px}
+
+  /* chrome */
+  #ui{position:fixed;right:16px;bottom:12px;display:flex;gap:8px;align-items:center;font:14px 'Noto Sans KR',sans-serif;color:#A9B8CF;z-index:10}
+  #ui button{background:#1F3A63;color:#F7F5EF;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
+  #ui button:hover{background:#2C4F82}
+  #notes{position:fixed;left:0;right:0;bottom:0;max-height:32vh;overflow:auto;background:rgba(11,22,40,.95);color:#E9EEF5;font:16px/1.7 'Noto Sans KR',sans-serif;padding:16px 24px 48px;display:none;z-index:9}
+  #notes.show{display:block}
+  #progress{position:fixed;left:0;top:0;height:4px;background:var(--orange);transition:width .3s;z-index:10}
+  @media print{
+    html,body{overflow:visible;background:#fff}
+    #ui,#notes,#progress{display:none!important}
+    #stage{position:static;transform:none!important}
+    .slide{position:relative;display:flex!important;page-break-after:always;width:1920px;height:1080px}
+    @page{size:1920px 1080px;margin:0}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="stage">
+
+<!-- 1. Cover -->
+<section class="slide bg-navy cover" data-notes="안녕하세요, 팀 무브메이트입니다. 저희가 진행할 아이디어는 ‘어바웃트립’, 여행을 발견하고 공유하고 그대로 따라가는 여행 소셜 플랫폼입니다. 5분 동안 아이디어, 문제, 타깃, 진입 전략, 진행 상황과 앞으로의 계획 순서로 말씀드리겠습니다.">
+  <svg viewBox="0 0 560 720" width="560" height="720" aria-label="지도 위에 점선으로 이어진 여행 루트와 장소 핀">
+    <g stroke="#1F3A63" stroke-width="2"><line x1="0" y1="120" x2="560" y2="120"/><line x1="0" y1="300" x2="560" y2="300"/><line x1="0" y1="480" x2="560" y2="480"/><line x1="0" y1="660" x2="560" y2="660"/><line x1="140" y1="0" x2="140" y2="720"/><line x1="320" y1="0" x2="320" y2="720"/><line x1="500" y1="0" x2="500" y2="720"/></g>
+    <path d="M80 640 C 200 600, 140 480, 260 440 S 460 380, 400 260 S 260 120, 440 80" fill="none" stroke="#F2A65A" stroke-width="6" stroke-dasharray="4 18" stroke-linecap="round"/>
+    <circle cx="80" cy="640" r="26" fill="#F2A65A"/><circle cx="80" cy="640" r="10" fill="#14294B"/>
+    <circle cx="260" cy="440" r="26" fill="#F2A65A"/><circle cx="260" cy="440" r="10" fill="#14294B"/>
+    <circle cx="400" cy="260" r="26" fill="#F2A65A"/><circle cx="400" cy="260" r="10" fill="#14294B"/>
+    <circle cx="440" cy="80" r="34" fill="#F7F5EF"/><circle cx="440" cy="80" r="14" fill="#E07A2F"/>
+  </svg>
+  <p class="tag">team. 무브메이트 (MOVE MATE)</p>
+  <div><h1>어바웃트립</h1><p class="en">AboutTrip</p></div>
+  <p class="sub">여행을 발견하고, 공유하고,<br>그대로 따라가는 여행 소셜 플랫폼</p>
+  <div class="foot"><span>2026. 11. 4 · 툴 강의 및 실습 스터디 · 아이디어 발표</span></div>
+</section>
+
+<!-- 2. Idea -->
+<section class="slide" data-notes="어바웃트립은 여행 콘텐츠를 보는 경험과 실제 여행을 실행하는 경험을 하나로 잇는 여행 소셜 플랫폼입니다. 기능은 세 가지입니다. 여행 경험을 올리고 소통하는 커뮤니티, 게시물 속 장소를 지도와 연결하는 기능, 그리고 핵심 차별점인 ‘원클릭 여행 시작’입니다. 인플루언서나 다른 여행자가 공유한 루트를 고르면 장소와 순서가 지도에 바로 뜨고, 내 상황에 맞게 추가·삭제·순서 변경을 할 수 있습니다.">
+  <div class="head"><p class="eyebrow">01 · 아이디어</p><h2>SNS에서 본 여행 코스를,<br>클릭 한 번으로 내 여행 일정으로</h2></div>
+  <div class="row">
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#14294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><circle cx="17" cy="7" r="3"/><path d="M17 13c3 0 5 2 5 5"/></svg>
+      <h3>여행 소셜 커뮤니티</h3>
+      <p>여행 사진·영상·후기를 올리고 좋아요·댓글·저장으로 소통</p>
+    </div>
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#14294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      <h3>지도 기반 콘텐츠 공유</h3>
+      <p>게시물 속 맛집·카페·관광지를 지도 핀과 방문 순서로 연결</p>
+    </div>
+    <div class="card dark">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#F2A65A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4z" fill="#F2A65A"/></svg>
+      <h3>원클릭 여행 시작</h3>
+      <p>남이 공유한 루트를 선택 → 지도에서 확인 → 장소·순서를 내 취향대로 수정</p>
+    </div>
+  </div>
+  <div class="foot"><span>어바웃트립 · team 무브메이트</span><span class="pg"></span></div>
+</section>
+
+<!-- 3. Problem -->
+<section class="slide bg-alt" data-notes="요즘 여행지는 인스타그램, 유튜브, 틱톡에서 발견합니다. 그런데 마음에 드는 게시물을 찾은 다음부터가 문제입니다. 장소 위치를 다시 검색하고, 이동 동선을 직접 정리하고, 영업시간이나 예약 여부를 따로 확인한 뒤 일정을 처음부터 짜야 합니다. 영감은 SNS에서 얻지만 실행 정보는 다른 플랫폼에서 다시 모아야 하는 구조라, 관심이 실제 방문으로 이어지기 어렵습니다.">
+  <div class="head"><p class="eyebrow">02 · 해결하고자 하는 문제</p><h2>영감은 SNS에서, 준비는 처음부터 다시</h2></div>
+  <div class="flow">
+    <div class="step hot"><p>SNS에서<br>여행지 발견</p></div>
+    <svg class="arrow" viewBox="0 0 48 24"><path d="M0 7h28V0l20 12-20 12v-7H0z" fill="#8A9AB2"/></svg>
+    <div class="step"><p>장소 위치<br>다시 검색</p></div>
+    <svg class="arrow" viewBox="0 0 48 24"><path d="M0 7h28V0l20 12-20 12v-7H0z" fill="#8A9AB2"/></svg>
+    <div class="step"><p>이동 동선<br>직접 정리</p></div>
+    <svg class="arrow" viewBox="0 0 48 24"><path d="M0 7h28V0l20 12-20 12v-7H0z" fill="#8A9AB2"/></svg>
+    <div class="step"><p>영업시간·<br>예약 확인</p></div>
+    <svg class="arrow" viewBox="0 0 48 24"><path d="M0 7h28V0l20 12-20 12v-7H0z" fill="#8A9AB2"/></svg>
+    <div class="step"><p>일정<br>직접 구성</p></div>
+    <p class="inside">SNS 안에서 끝</p>
+    <div></div>
+    <p class="bracket">지도·블로그·검색 등 다른 플랫폼에서 반복</p>
+  </div>
+  <p class="statement">→ 콘텐츠로 생긴 관심이 <span class="accent">실제 방문으로 이어지지 못한다</span></p>
+  <div class="foot"><span>어바웃트립 · team 무브메이트</span><span class="pg"></span></div>
+</section>
+
+<!-- 4. Definition -->
+<section class="slide bg-orange" data-notes="그래서 저희는 문제를 이렇게 정의했습니다. 여행 콘텐츠를 보는 경험과 여행을 실행하는 경험이 단절되어 있다. 구체적으로는 네 가지입니다. 콘텐츠와 준비 과정의 단절, 남의 여행을 그대로 따라가기 어려운 문제, 여행 정보와 소통이 여러 플랫폼에 흩어진 문제, 그리고 처음부터 계획을 세워야 하는 선택의 부담입니다.">
+  <div class="head"><p class="eyebrow">02 · 문제 정의</p><h2>여행 콘텐츠를 ‘보는 경험’과<br>여행을 ‘실행하는 경험’이 단절되어 있다</h2></div>
+  <div class="grid2">
+    <div><h3>① 콘텐츠–준비 과정의 단절</h3><p>영감은 SNS에서, 실행 정보는 다른 곳에서 다시 수집</p></div>
+    <div><h3>② 남의 여행을 따라가기 어려움</h3><p>사진·영상 중심이라 위치·순서가 정리되어 있지 않음</p></div>
+    <div><h3>③ 정보 교류와 소통의 분산</h3><p>SNS·블로그·커뮤니티에 흩어져 하나의 흐름으로 안 이어짐</p></div>
+    <div><h3>④ 계획 수립의 선택 부담</h3><p>정보가 부족하면 처음부터 일정을 짜는 시간과 노력이 큼</p></div>
+  </div>
+  <div class="foot"><span>어바웃트립 · team 무브메이트</span><span class="pg"></span></div>
+</section>
+
+<!-- 5. Customer -->
+<section class="slide" data-notes="핵심 고객은 두 그룹입니다. 첫째, SNS에서 여행 콘텐츠를 자주 보고 장소를 저장하거나 방문을 계획하는 여행 정보 탐색자. 둘째, 자기 여행을 기록하고 공유하고 싶은 일반 여행자입니다. 여기에 여행 크리에이터와 인플루언서를 콘텐츠 공급자이자 초기 유입 채널로 확보하려 합니다. 이들은 모두 이미 SNS로 여행을 찾고 있기 때문에, 새로운 습관을 만드는 게 아니라 그 다음 단계를 이어주는 서비스입니다.">
+  <div class="head"><p class="eyebrow">03 · 핵심 고객 및 타깃</p><h2>이미 SNS로 여행을 고르는 사람들</h2></div>
+  <div class="row">
+    <div class="card strong"><span class="pill navy">핵심 고객</span><h3>SNS 기반<br>여행 정보 탐색자</h3><p>인스타·유튜브·틱톡에서 여행 콘텐츠를 자주 보고, 장소를 저장하거나 방문을 계획하는 사람</p></div>
+    <div class="card strong"><span class="pill navy">핵심 고객</span><h3>여행 기록·공유에<br>관심 있는 여행자</h3><p>다녀온 사진·장소·코스를 공유하고 다른 여행자와 정보를 나누고 싶은 사람</p></div>
+    <div class="card"><span class="pill peach">공급자 · 유입 채널</span><h3>여행 크리에이터<br>· 인플루언서</h3><p>자신의 여행 코스를 콘텐츠로 만드는 창작자 — 콘텐츠를 채우고 팔로워를 데려옴</p></div>
+  </div>
+  <p class="statement" style="font-weight:400;font-size:30px">공통점: <b>새로운 습관이 아니라</b>, 이미 하고 있는 ‘SNS로 여행 찾기’의 다음 단계를 제공</p>
+  <div class="foot"><span>어바웃트립 · team 무브메이트</span><span class="pg"></span></div>
+</section>
+
+<!-- 6. Entry -->
+<section class="slide bg-alt" data-notes="소셜 서비스는 처음에 콘텐츠가 없으면 아무도 머물지 않습니다. 그래서 전국·해외를 한꺼번에 다루지 않고, 서울 맛집·카페 투어나 제주 감성 여행처럼 특정 지역과 테마부터 시작해 운영진이 직접 루트를 채웁니다. 다음으로 소규모 여행 크리에이터와 협업해 그들의 코스를 루트로 만들고 팔로워를 데려옵니다. 마지막으로 인스타그램 숏폼과 루트 공유 이벤트로 일반 사용자가 직접 콘텐츠를 만들고 퍼뜨리는 구조를 만듭니다.">
+  <div class="head"><p class="eyebrow">03 · 초기 고객 진입 전략</p><h2>좁게 시작해서, 콘텐츠로 사람을 모은다</h2></div>
+  <div class="row">
+    <div class="card" style="border:none"><p class="num">1</p><h3>특정 지역·테마 집중</h3><ul><li>서울 맛집·카페 투어, 강원도 바다, 제주 감성 여행 등</li><li>운영진이 직접 루트를 만들어 첫 방문자도 볼 게 있게</li></ul></div>
+    <div class="card" style="border:none"><p class="num">2</p><h3>소규모 크리에이터 협업</h3><ul><li>크리에이터의 여행 코스를 서비스 내 루트로 구성</li><li>팔로워가 들어와 루트를 저장·활용하도록 유도</li><li>저작권·초상권은 사전 동의 후 사용</li></ul></div>
+    <div class="card" style="border:none"><p class="num">3</p><h3>SNS 확산 · 참여형 이벤트</h3><ul><li>루트·지도 화면 숏폼으로 인스타그램 유입</li><li>‘나만의 여행 루트 공유’ 이벤트, 인기 루트 소개</li></ul></div>
+  </div>
+  <div class="foot"><span>어바웃트립 · team 무브메이트</span><span class="pg"></span></div>
+</section>
+
+<!-- 7. Progress -->
+<section class="slide" data-notes="지금까지 진행 상황입니다. 10월 27일부터 각자 관심 있는 툴을 골라 스터디했습니다. AI 툴은 권주형, Git과 GitHub는 김주환·김태은, Figma는 강다현·박효주가 맡았습니다. 11월 1일 아이디어 회의에서 어바웃트립으로 확정하고 사업소개서를 작성했고, 팀원 4명이 신한 스퀘어브릿지 대학생 창업 공모전 HERO IR에 지원했습니다. 오늘은 각자 공부한 툴을 강의하고 실습하는 날입니다.">
+  <div class="head"><p class="eyebrow">04 · 현재까지의 진행 상황</p><h2>툴 스터디부터 공모전 지원까지</h2></div>
+  <div>
+    <div class="tl-row"><p class="tl-date">10/27–11/3</p><div><h3>개발·실무 툴 스터디</h3><p>AI 툴 권주형 · Git/GitHub 김주환·김태은 · Figma 강다현·박효주</p></div><p class="status">완료</p></div>
+    <div class="tl-row"><p class="tl-date">11/1</p><div><h3>아이디어 회의 → ‘어바웃트립’ 확정</h3><p>사업소개서 작성: 문제 정의 · 서비스 구성 · 차별성 · 사업화 전략 · 리스크</p></div><p class="status">완료</p></div>
+    <div class="tl-row"><p class="tl-date">11/2</p><div><h3>2026 신한 스퀘어브릿지 대학생 창업 공모전 ‘HERO IR’ 지원</h3><p>4인 참가: 김주환 · 권주형 · 김태은 · 박효주</p></div><p class="status">완료</p></div>
+    <div class="tl-row"><p class="tl-date">11/4</p><div><h3>툴 강의 및 실습 스터디</h3><p>각자 맡은 툴을 사용설명서 형태로 강의하고 팀 실습</p></div><p class="status now">오늘</p></div>
+  </div>
+  <div class="foot"><span>어바웃트립 · team 무브메이트</span><span class="pg"></span></div>
+</section>
+
+<!-- 8. Schedule -->
+<section class="slide bg-alt" data-notes="앞으로는 두 트랙으로 진행합니다. 팀플 트랙은 내일 11월 5일부터 22일까지 앱을 개발해 론칭하고, 마케팅 스터디, KPI 작성과 발표자료 준비를 거쳐 12월 2일 데모데이에 발표합니다. 공모전 트랙은 4명이 11월 14일 대면 심사를 시작으로 온라인 OT, 1박 2일 IR 고도화 워크숍, IR 덱 제작 지원을 거쳐 12월 8일 본선 발표까지 갑니다. 팀플에서 만든 서비스와 데이터가 공모전 IR의 근거가 되도록 두 트랙을 연결하겠습니다.">
+  <div class="head"><p class="eyebrow">04 · 향후 실행 계획</p><h2>팀플과 공모전, 두 트랙으로 달린다</h2></div>
+  <div class="row" style="align-items:flex-start">
+    <div class="track">
+      <div class="track-head"><h3>팀플 트랙 · 5명</h3></div>
+      <div class="track-row"><span class="d">11/5–11/22</span><span>앱 개발 &amp; 론칭</span></div>
+      <div class="track-row"><span class="d">11/23–11/27</span><span>마케팅 스터디</span></div>
+      <div class="track-row"><span class="d">11/28–12/1</span><span>KPI 작성 &amp; 데모데이 발표자료 준비</span></div>
+      <div class="track-row"><span class="d">12/2</span><span class="final">팀플 데모데이</span></div>
+    </div>
+    <div class="track">
+      <div class="track-head"><h3>공모전 트랙 · 4명</h3></div>
+      <div class="track-row"><span class="d">11/14</span><span>오프라인 대면 심사</span></div>
+      <div class="track-row"><span class="d">11/19</span><span>온라인 오리엔테이션</span></div>
+      <div class="track-row"><span class="d">11/27–11/28</span><span>1박 2일 IR 고도화 워크숍</span></div>
+      <div class="track-row"><span class="d">11/29–12/4</span><span>온라인 IR 덱 디자인 제작 지원</span></div>
+      <div class="track-row"><span class="d">12/8</span><span class="final">본선 발표</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>어바웃트립 · team 무브메이트</span><span class="pg"></span></div>
+</section>
+
+<!-- 9. Roadmap -->
+<section class="slide" data-notes="제품은 단계적으로 만듭니다. 1단계는 개발 부담이 적은 웹 MVP로, 회원가입, 게시물과 사진 업로드, 좋아요·댓글·저장, 장소 태그 같은 커뮤니티 핵심 기능에 집중합니다. 이후 지도 기반 루트 기능, 모바일 앱과 루트 따라가기, 장기적으로는 AI 동선 추천과 예약 연동까지 확장합니다. 각 단계는 사용자 반응과 데이터를 보고 다음으로 넘어갑니다.">
+  <div class="head"><p class="eyebrow">04 · 향후 실행 계획 — 제품 로드맵</p><h2>웹 MVP로 검증하고, 단계적으로 확장</h2></div>
+  <div class="row road" style="gap:24px">
+    <div class="card dark"><span class="pill orange">1단계 · 우선 개발</span><h3>커뮤니티형<br>웹 MVP</h3><ul><li>회원가입·프로필</li><li>게시물·사진 업로드</li><li>좋아요·댓글·저장</li><li>게시물 장소 태그</li></ul></div>
+    <div class="card"><span class="pill gray">2단계</span><h3>지도 기반<br>여행 루트</h3><ul><li>장소별 지도 핀</li><li>코스 생성·공유·저장</li><li>방문 순서 설정·수정</li></ul></div>
+    <div class="card"><span class="pill gray">3단계</span><h3>모바일 앱<br>· 여행 실행</h3><ul><li>루트 따라가기</li><li>장소 추가·삭제</li><li>경로 재탐색</li></ul></div>
+    <div class="card"><span class="pill gray">4단계</span><h3>AI 추천<br>· 예약 연계</h3><ul><li>AI 여행 동선 추천</li><li>숙소·맛집·투어 예약 연동</li></ul></div>
+  </div>
+  <p class="statement" style="font-weight:400;font-size:30px">각 단계는 <b>사용자 반응과 이용 데이터</b>를 확인한 뒤 다음 단계로 넘어간다</p>
+  <div class="foot"><span>어바웃트립 · team 무브메이트</span><span class="pg"></span></div>
+</section>
+
+<!-- 10. Closing -->
+<section class="slide bg-navy closing" data-notes="어바웃트립은 여행 일정을 대신 짜주는 서비스가 아니라, 다른 사람의 여행에서 영감을 얻고 그 여행을 실제로 경험하러 오는 새로운 여행 소셜미디어입니다. 다른 사람의 여행을, 내 여행으로. 감사합니다.">
+  <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="#F2A65A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="종이비행기"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+  <h1>다른 사람의 여행을,<br><span style="color:var(--orange-soft)">내 여행으로.</span></h1>
+  <p class="team">어바웃트립(AboutTrip) · team 무브메이트</p>
+  <p class="thanks">감사합니다</p>
+</section>
+
+</div>
+
+<div id="notes"></div>
+<div id="ui">
+  <span id="count"></span>
+  <button id="prev" title="이전 (←)">◀</button>
+  <button id="next" title="다음 (→)">▶</button>
+  <button id="noteBtn" title="발표자 노트 (N)">노트</button>
+  <button id="fsBtn" title="전체 화면 (F)">전체화면</button>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var stage = document.getElementById('stage');
+  var notes = document.getElementById('notes');
+  var count = document.getElementById('count');
+  var bar = document.getElementById('progress');
+  var i = 0;
+  slides.forEach(function(s, n){ var pg = s.querySelector('.pg'); if(pg) pg.textContent = n + 1; });
+
+  function fit(){
+    var sc = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    stage.style.transform = 'translate(-50%,-50%) scale(' + sc + ')';
+  }
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    count.textContent = (i + 1) + ' / ' + slides.length;
+    notes.textContent = slides[i].getAttribute('data-notes') || '';
+    bar.style.width = ((i + 1) / slides.length * 100) + '%';
+    try { history.replaceState(null, '', '#' + (i + 1)); } catch(e){}
+  }
+  function fs(){
+    if (!document.fullscreenElement) { document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); }
+    else { document.exitFullscreen && document.exitFullscreen(); }
+  }
+  document.getElementById('prev').onclick = function(){ show(i - 1); };
+  document.getElementById('next').onclick = function(){ show(i + 1); };
+  document.getElementById('noteBtn').onclick = function(){ notes.classList.toggle('show'); };
+  document.getElementById('fsBtn').onclick = fs;
+  document.addEventListener('keydown', function(e){
+    if (['ArrowRight','PageDown',' ','Enter'].indexOf(e.key) > -1) { e.preventDefault(); show(i + 1); }
+    else if (['ArrowLeft','PageUp','Backspace'].indexOf(e.key) > -1) { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'n' || e.key === 'N') notes.classList.toggle('show');
+    else if (e.key === 'f' || e.key === 'F') fs();
+  });
+  stage.addEventListener('click', function(e){
+    if (e.clientX > window.innerWidth / 2) show(i + 1); else show(i - 1);
+  });
+  window.addEventListener('resize', fit);
+  fit();
+  var start = parseInt((location.hash || '').replace('#',''), 10);
+  show(isNaN(start) ? 0 : start - 1);
+})();
+</script>
+</body>
+</html>
